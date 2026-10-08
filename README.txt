@@ -12,7 +12,6 @@ SUBMISSION FILES
 - InterlockingImpl_Test.java: public API and route tests.
 - InterlockingSafety_Test.java: simultaneous movement and safety tests.
 - PetriNetDesign.pdf: Petri-net plan, guards, routes, and invariants.
-- AI Usage-1.rtf: AI-use disclosure required by the assignment brief.
 
 IMPLEMENTATION SUMMARY
 
@@ -57,4 +56,3 @@ moveTrains only considers the active trains named by the caller. A train not
 listed in a call remains in its section. Opposing trains can therefore block
 one another on a single-track edge; the interlocking preserves safety and does
 not move an unrequested train to manufacture progress.
-

@@ -1,23 +1,247 @@
-{\rtf1\ansi\ansicpg1252\deff0
-{\fonttbl{\f0\fswiss Arial;}}
-{\colortbl;\red0\green0\blue0;}
-\paperw11906\paperh16838\margl1440\margr1440\margt1134\margb1134
-\viewkind4\uc1
-\pard\qc\f0\fs32\b AI Usage Declaration\b0\par
-\pard\sa240\qc\fs22 COMP5050 Programming Assignment 2\par
-\pard\sa180\fs24 This statement records the generative AI assistance used in the planning, implementation, and verification of this assignment.\par
-\pard\sa120\fs24\b Entry 1  Planning and concept clarification\b0\par
-\pard\sa80\fs24\b 1.1 AI version used.\b0\par
-\pard\li360\sa140\fs24 OpenAI Codex, a GPT-5-based coding agent.\par
-\pard\sa80\fs24\b 1.2 When was it used.\b0\par
-\pard\li360\sa140\fs24 15 September 2026, during requirements analysis and Petri-net planning.\par
-\pard\sa80\fs24\b 1.3 How did it help with the assignment.\b0\par
-\pard\li360\sa200\fs24 The tool analysed the supplied brief, diagrams, interface, and course materials. It identified the eight permitted routes, mapped the public API requirements, and helped construct the Petri-net places, transitions, guards, priority rule, and safety invariants. It also recorded requirements that still depend on the final GitHub submission process.\par
-\pard\sa120\fs24\b Entry 2  Code generation and testing\b0\par
-\pard\sa80\fs24\b 2.1 AI version used.\b0\par
-\pard\li360\sa140\fs24 OpenAI Codex, a GPT-5-based coding agent.\par
-\pard\sa80\fs24\b 2.2 When was it used.\b0\par
-\pard\li360\sa140\fs24 15 September 2026, during implementation, test construction, and final review.\par
-\pard\sa80\fs24\b 2.3 How did it help with the assignment.\b0\par
-\pard\li360\sa180\fs24 The tool generated and refined InterlockingImpl.java and the JUnit 4 test suite. It checked simultaneous movement, section occupancy, passenger priority, invalid inputs, all legal routes, exit behaviour, and deterministic conflict handling. The completed files were compiled with JDK 11, all 39 tests were run successfully, and coverage was measured before delivery.\par
-}
+{\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff31507\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang3081\deflangfe2052\themelang3081\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f1\fbidi \fswiss\fcharset0\fprq2{\*\panose 020b0604020202020204}Arial;}
+{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}{\f36\fbidi \fnil\fcharset134\fprq2{\*\panose 02010600030101010101}\'b5\'c8\'cf\'df{\*\falt DengXian};}{\f42\fbidi \fswiss\fcharset0\fprq2 Aptos;}
+{\f47\fbidi \fnil\fcharset134\fprq2{\*\panose 02010600030101010101}@DengXian{\*\falt @\'b5\'c8\'cf\'df};}{\flomajor\f31500\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}
+{\fdbmajor\f31501\fbidi \fnil\fcharset134\fprq2{\*\panose 02010600030101010101}\'b5\'c8\'cf\'df Light{\*\falt DengXian Light};}{\fhimajor\f31502\fbidi \fswiss\fcharset0\fprq2 Aptos Display;}
+{\fbimajor\f31503\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\flominor\f31504\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}
+{\fdbminor\f31505\fbidi \fnil\fcharset134\fprq2{\*\panose 02010600030101010101}\'b5\'c8\'cf\'df{\*\falt DengXian};}{\fhiminor\f31506\fbidi \fswiss\fcharset0\fprq2 Aptos;}
+{\fbiminor\f31507\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f48\fbidi \froman\fcharset238\fprq2 Times New Roman CE;}{\f49\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr;}
+{\f51\fbidi \froman\fcharset161\fprq2 Times New Roman Greek;}{\f52\fbidi \froman\fcharset162\fprq2 Times New Roman Tur;}{\f53\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f54\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
+{\f55\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic;}{\f56\fbidi \froman\fcharset163\fprq2 Times New Roman (Vietnamese);}{\f58\fbidi \fswiss\fcharset238\fprq2 Arial CE;}{\f59\fbidi \fswiss\fcharset204\fprq2 Arial Cyr;}
+{\f61\fbidi \fswiss\fcharset161\fprq2 Arial Greek;}{\f62\fbidi \fswiss\fcharset162\fprq2 Arial Tur;}{\f63\fbidi \fswiss\fcharset177\fprq2 Arial (Hebrew);}{\f64\fbidi \fswiss\fcharset178\fprq2 Arial (Arabic);}
+{\f65\fbidi \fswiss\fcharset186\fprq2 Arial Baltic;}{\f66\fbidi \fswiss\fcharset163\fprq2 Arial (Vietnamese);}{\f68\fbidi \froman\fcharset238\fprq2 Cambria Math CE;}{\f69\fbidi \froman\fcharset204\fprq2 Cambria Math Cyr;}
+{\f71\fbidi \froman\fcharset161\fprq2 Cambria Math Greek;}{\f72\fbidi \froman\fcharset162\fprq2 Cambria Math Tur;}{\f75\fbidi \froman\fcharset186\fprq2 Cambria Math Baltic;}{\f76\fbidi \froman\fcharset163\fprq2 Cambria Math (Vietnamese);}
+{\f80\fbidi \fnil\fcharset0\fprq2 \'b5\'c8\'cf\'df Western{\*\falt DengXian};}{\f78\fbidi \fnil\fcharset238\fprq2 \'b5\'c8\'cf\'df CE{\*\falt DengXian};}{\f79\fbidi \fnil\fcharset204\fprq2 \'b5\'c8\'cf\'df Cyr{\*\falt DengXian};}
+{\f81\fbidi \fnil\fcharset161\fprq2 \'b5\'c8\'cf\'df Greek{\*\falt DengXian};}{\f88\fbidi \fswiss\fcharset238\fprq2 Aptos CE;}{\f89\fbidi \fswiss\fcharset204\fprq2 Aptos Cyr;}{\f91\fbidi \fswiss\fcharset161\fprq2 Aptos Greek;}
+{\f92\fbidi \fswiss\fcharset162\fprq2 Aptos Tur;}{\f95\fbidi \fswiss\fcharset186\fprq2 Aptos Baltic;}{\f96\fbidi \fswiss\fcharset163\fprq2 Aptos (Vietnamese);}{\f100\fbidi \fnil\fcharset0\fprq2 @DengXian Western{\*\falt @\'b5\'c8\'cf\'df};}
+{\f98\fbidi \fnil\fcharset238\fprq2 @DengXian CE{\*\falt @\'b5\'c8\'cf\'df};}{\f99\fbidi \fnil\fcharset204\fprq2 @DengXian Cyr{\*\falt @\'b5\'c8\'cf\'df};}{\f101\fbidi \fnil\fcharset161\fprq2 @DengXian Greek{\*\falt @\'b5\'c8\'cf\'df};}
+{\flomajor\f31508\fbidi \froman\fcharset238\fprq2 Times New Roman CE;}{\flomajor\f31509\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr;}{\flomajor\f31511\fbidi \froman\fcharset161\fprq2 Times New Roman Greek;}
+{\flomajor\f31512\fbidi \froman\fcharset162\fprq2 Times New Roman Tur;}{\flomajor\f31513\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\flomajor\f31514\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
+{\flomajor\f31515\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic;}{\flomajor\f31516\fbidi \froman\fcharset163\fprq2 Times New Roman (Vietnamese);}
+{\fdbmajor\f31520\fbidi \fnil\fcharset0\fprq2 \'b5\'c8\'cf\'df Light Western{\*\falt DengXian Light};}{\fdbmajor\f31518\fbidi \fnil\fcharset238\fprq2 \'b5\'c8\'cf\'df Light CE{\*\falt DengXian Light};}
+{\fdbmajor\f31519\fbidi \fnil\fcharset204\fprq2 \'b5\'c8\'cf\'df Light Cyr{\*\falt DengXian Light};}{\fdbmajor\f31521\fbidi \fnil\fcharset161\fprq2 \'b5\'c8\'cf\'df Light Greek{\*\falt DengXian Light};}
+{\fhimajor\f31528\fbidi \fswiss\fcharset238\fprq2 Aptos Display CE;}{\fhimajor\f31529\fbidi \fswiss\fcharset204\fprq2 Aptos Display Cyr;}{\fhimajor\f31531\fbidi \fswiss\fcharset161\fprq2 Aptos Display Greek;}
+{\fhimajor\f31532\fbidi \fswiss\fcharset162\fprq2 Aptos Display Tur;}{\fhimajor\f31535\fbidi \fswiss\fcharset186\fprq2 Aptos Display Baltic;}{\fhimajor\f31536\fbidi \fswiss\fcharset163\fprq2 Aptos Display (Vietnamese);}
+{\fbimajor\f31538\fbidi \froman\fcharset238\fprq2 Times New Roman CE;}{\fbimajor\f31539\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr;}{\fbimajor\f31541\fbidi \froman\fcharset161\fprq2 Times New Roman Greek;}
+{\fbimajor\f31542\fbidi \froman\fcharset162\fprq2 Times New Roman Tur;}{\fbimajor\f31543\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\fbimajor\f31544\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
+{\fbimajor\f31545\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic;}{\fbimajor\f31546\fbidi \froman\fcharset163\fprq2 Times New Roman (Vietnamese);}{\flominor\f31548\fbidi \froman\fcharset238\fprq2 Times New Roman CE;}
+{\flominor\f31549\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr;}{\flominor\f31551\fbidi \froman\fcharset161\fprq2 Times New Roman Greek;}{\flominor\f31552\fbidi \froman\fcharset162\fprq2 Times New Roman Tur;}
+{\flominor\f31553\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\flominor\f31554\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}{\flominor\f31555\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic;}
+{\flominor\f31556\fbidi \froman\fcharset163\fprq2 Times New Roman (Vietnamese);}{\fdbminor\f31560\fbidi \fnil\fcharset0\fprq2 \'b5\'c8\'cf\'df Western{\*\falt DengXian};}
+{\fdbminor\f31558\fbidi \fnil\fcharset238\fprq2 \'b5\'c8\'cf\'df CE{\*\falt DengXian};}{\fdbminor\f31559\fbidi \fnil\fcharset204\fprq2 \'b5\'c8\'cf\'df Cyr{\*\falt DengXian};}
+{\fdbminor\f31561\fbidi \fnil\fcharset161\fprq2 \'b5\'c8\'cf\'df Greek{\*\falt DengXian};}{\fhiminor\f31568\fbidi \fswiss\fcharset238\fprq2 Aptos CE;}{\fhiminor\f31569\fbidi \fswiss\fcharset204\fprq2 Aptos Cyr;}
+{\fhiminor\f31571\fbidi \fswiss\fcharset161\fprq2 Aptos Greek;}{\fhiminor\f31572\fbidi \fswiss\fcharset162\fprq2 Aptos Tur;}{\fhiminor\f31575\fbidi \fswiss\fcharset186\fprq2 Aptos Baltic;}
+{\fhiminor\f31576\fbidi \fswiss\fcharset163\fprq2 Aptos (Vietnamese);}{\fbiminor\f31578\fbidi \froman\fcharset238\fprq2 Times New Roman CE;}{\fbiminor\f31579\fbidi \froman\fcharset204\fprq2 Times New Roman Cyr;}
+{\fbiminor\f31581\fbidi \froman\fcharset161\fprq2 Times New Roman Greek;}{\fbiminor\f31582\fbidi \froman\fcharset162\fprq2 Times New Roman Tur;}{\fbiminor\f31583\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}
+{\fbiminor\f31584\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}{\fbiminor\f31585\fbidi \froman\fcharset186\fprq2 Times New Roman Baltic;}{\fbiminor\f31586\fbidi \froman\fcharset163\fprq2 Times New Roman (Vietnamese);}}
+{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;
+\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;\red0\green0\blue0;\red0\green0\blue0;}{\*\defchp \fs24\kerning2\loch\af31506\hich\af31506\dbch\af31505 }{\*\defpap 
+\ql \li0\ri0\sa160\sl278\slmult1\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 }\noqfpromote {\upr{\stylesheet{\ql \li0\ri0\sa160\sl278\slmult1\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 
+\rtlch\fcs1 \af31507\afs24\alang1025 \ltrch\fcs0 \fs24\lang3081\langfe2052\kerning2\loch\f31506\hich\af31506\dbch\af31505\cgrid\langnp3081\langfenp2052 \snext0 \sqformat \spriority0 Normal;}{\*\cs10 \additive \ssemihidden \sunhideused \spriority1 
+Default Paragraph Font;}{\*\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\trcbpat1\trcfpat1\tblind0\tblindtype3\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
+\ql \li0\ri0\sa160\sl278\slmult1\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af31507\afs24\alang1025 \ltrch\fcs0 
+\fs24\lang3081\langfe2052\kerning2\loch\f31506\hich\af31506\dbch\af31505\cgrid\langnp3081\langfenp2052 \snext11 \ssemihidden \sunhideused Normal Table;}}{\*\ud\uc0{\stylesheet{\ql \li0\ri0\sa160\sl278\slmult1
+\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af31507\afs24\alang1025 \ltrch\fcs0 \fs24\lang3081\langfe2052\kerning2\loch\f31506\hich\af31506\dbch\af31505\cgrid\langnp3081\langfenp2052 
+\snext0 \sqformat \spriority0 Normal;}{\*\cs10 \additive \ssemihidden \sunhideused \spriority1 Default Paragraph Font;}{\*
+\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\trcbpat1\trcfpat1\tblind0\tblindtype3\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv \ql \li0\ri0\sa160\sl278\slmult1
+\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af31507\afs24\alang1025 \ltrch\fcs0 \fs24\lang3081\langfe2052\kerning2\loch\f31506\hich\af31506\dbch\af31505\cgrid\langnp3081\langfenp2052 
+\snext11 \ssemihidden \sunhideused Normal Table;}}}}{\*\rsidtbl \rsid3107016\rsid5638255\rsid12336858\rsid16405836}{\mmathPr\mmathFont34\mbrkBin0\mbrkBinSub0\msmallFrac0\mdispDef1\mlMargin0\mrMargin0\mdefJc1\mwrapIndent1440\mintLim0\mnaryLim1}{\info
+{\operator ALAN JIA}{\creatim\yr2026\mo9\dy16\hr14\min51}{\revtim\yr2026\mo9\dy16\hr14\min53}{\version3}{\edmins2}{\nofpages1}{\nofwords174}{\nofchars992}{\nofcharsws1164}{\vern23}}{\*\xmlnstbl {\xmlns1 http://schemas.microsoft.com/office/word/2003/wordm
+l}}\paperw11906\paperh16838\margl1440\margr1440\margt1134\margb1134\gutter0\ltrsect 
+\widowctrl\ftnbj\aenddoc\trackmoves0\trackformatting1\donotembedsysfont0\relyonvml0\donotembedlingdata1\grfdocevents0\validatexml0\showplaceholdtext0\ignoremixedcontent0\saveinvalidxml0\showxmlerrors0\horzdoc\dghspace120\dgvspace120\dghorigin1701
+\dgvorigin1984\dghshow0\dgvshow3\jcompress\viewkind1\viewscale150\rsidroot12336858 \fet0{\*\wgrffmtfilter 2450}\ilfomacatclnup0\ltrpar \sectd \ltrsect\linex0\sectdefaultcl\sftnbj {\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl2
+\pnucltr\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang {\pntxta )}}{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl6
+\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl8\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang 
+{\pntxtb (}{\pntxta )}}\pard\plain \ltrpar\qc \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af31507\afs24\alang1025 \ltrch\fcs0 \fs24\lang3081\langfe2052\kerning2\loch\af31506\hich\af31506\dbch\af31505\cgrid\langnp3081\langfenp2052 
+{\rtlch\fcs1 \ab\af1\afs32 \ltrch\fcs0 \b\f1\fs32\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 AI Usage Declaration}{\rtlch\fcs1 \af1\afs32 \ltrch\fcs0 \f1\fs32\kerning0\insrsid5638255 
+\par }\pard \ltrpar\qc \li0\ri0\sa240\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \af1\afs22 \ltrch\fcs0 \f1\fs22\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 COMP5050 Programming Assignment 2
+\par }\pard \ltrpar\ql \li0\ri0\sa180\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 
+This statement records the generative AI assistance used in the planning, implementation, and verification of this assignment.
+\par }\pard \ltrpar\ql \li0\ri0\sa120\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 Entry 1  Planning and concept clarification}{\rtlch\fcs1 \af1 \ltrch\fcs0 
+\f1\kerning0\insrsid5638255 
+\par }\pard \ltrpar\ql \li0\ri0\sa80\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 1.1 AI version used.}{\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 
+
+\par }\pard \ltrpar\ql \li360\ri0\sa140\nowidctlpar\wrapdefault\faauto\rin0\lin360\itap0 {\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 OpenAI Codex, a GPT-5-based coding agent.
+\par }\pard \ltrpar\ql \li0\ri0\sa80\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 1.2 When was it used.}{\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 
+
+\par }\pard \ltrpar\ql \li360\ri0\sa140\nowidctlpar\wrapdefault\faauto\rin0\lin360\itap0 {\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 15 September 2026, during requirements analysis and Petri-net planning.
+\par }\pard \ltrpar\ql \li0\ri0\sa80\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 1.3 How did it help with the assignment.}{\rtlch\fcs1 \af1 \ltrch\fcs0 
+\f1\kerning0\insrsid5638255 
+\par }\pard \ltrpar\ql \li360\ri0\sa200\nowidctlpar\wrapdefault\faauto\rin0\lin360\itap0 {\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 
+The tool analysed the supplied brief, diagrams, interface, and course materials. It identified the eight permitted routes, mapped the public API requirements, and helped construct the Petri-net places, transitions, guards, priority rule, and safety invari
+\hich\af1\dbch\af31505\loch\f1 ants.
+\par }\pard \ltrpar\ql \li0\ri0\sa120\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 Entry 2  Code generation and testing}{\rtlch\fcs1 \af1 \ltrch\fcs0 
+\f1\kerning0\insrsid5638255 
+\par }\pard \ltrpar\ql \li0\ri0\sa80\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 2.1 AI version used.}{\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 
+
+\par }\pard \ltrpar\ql \li360\ri0\sa140\nowidctlpar\wrapdefault\faauto\rin0\lin360\itap0 {\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 OpenAI Codex, a GPT-5-based coding agent.
+\par }\pard \ltrpar\ql \li0\ri0\sa80\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 2.2 When was it used.}{\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 
+
+\par }\pard \ltrpar\ql \li360\ri0\sa140\nowidctlpar\wrapdefault\faauto\rin0\lin360\itap0 {\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 15 September 2026, during implementation, test construction, and final review.
+
+\par }\pard \ltrpar\ql \li0\ri0\sa80\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \ab\af1 \ltrch\fcs0 \b\f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 2.3 How did it help with the assignment.}{\rtlch\fcs1 \af1 \ltrch\fcs0 
+\f1\kerning0\insrsid5638255 
+\par }\pard \ltrpar\ql \li360\ri0\sa180\nowidctlpar\wrapdefault\faauto\rin0\lin360\itap0 {\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 The tool }{\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid3107016 
+\hich\af1\dbch\af31505\loch\f1 helped\hich\af1\dbch\af31505\loch\f1  \hich\af1\dbch\af31505\loch\f1 and debugged}{\rtlch\fcs1 \af1 \ltrch\fcs0 \f1\kerning0\insrsid5638255 \hich\af1\dbch\af31505\loch\f1 
+ InterlockingImpl.java and the JUnit 4 test suite. It checked simultaneous movement, section occupancy, passenger priority, invalid inputs, all legal routes, exit behaviour, and deterministic conflict handling.}{\rtlch\fcs1 \af1 \ltrch\fcs0 
+\f1\kerning0\insrsid5638255 
+\par }{\*\themedata 504b030414000600080000002100e9de0fbfff0000001c020000130000005b436f6e74656e745f54797065735d2e786d6cac91cb4ec3301045f748fc83e52d4a
+9cb2400825e982c78ec7a27cc0c8992416c9d8b2a755fbf74cd25442a820166c2cd933f79e3be372bd1f07b5c3989ca74aaff2422b24eb1b475da5df374fd9ad
+5689811a183c61a50f98f4babebc2837878049899a52a57be670674cb23d8e90721f90a4d2fa3802cb35762680fd800ecd7551dc18eb899138e3c943d7e503b6
+b01d583deee5f99824e290b4ba3f364eac4a430883b3c092d4eca8f946c916422ecab927f52ea42b89a1cd59c254f919b0e85e6535d135a8de20f20b8c12c3b0
+0c895fcf6720192de6bf3b9e89ecdbd6596cbcdd8eb28e7c365ecc4ec1ff1460f53fe813d3cc7f5b7f020000ffff0300504b030414000600080000002100a5d6
+a7e7c0000000360100000b0000005f72656c732f2e72656c73848fcf6ac3300c87ef85bd83d17d51d2c31825762fa590432fa37d00e1287f68221bdb1bebdb4f
+c7060abb0884a4eff7a93dfeae8bf9e194e720169aaa06c3e2433fcb68e1763dbf7f82c985a4a725085b787086a37bdbb55fbc50d1a33ccd311ba548b6309512
+0f88d94fbc52ae4264d1c910d24a45db3462247fa791715fd71f989e19e0364cd3f51652d73760ae8fa8c9ffb3c330cc9e4fc17faf2ce545046e37944c69e462
+a1a82fe353bd90a865aad41ed0b5b8f9d6fd010000ffff0300504b0304140006000800000021006b799616830000008a0000001c0000007468656d652f746865
+6d652f7468656d654d616e616765722e786d6c0ccc4d0ac3201040e17da17790d93763bb284562b2cbaebbf600439c1a41c7a0d29fdbd7e5e38337cedf14d59b
+4b0d592c9c070d8a65cd2e88b7f07c2ca71ba8da481cc52c6ce1c715e6e97818c9b48d13df49c873517d23d59085adb5dd20d6b52bd521ef2cdd5eb9246a3d8b
+4757e8d3f729e245eb2b260a0238fd010000ffff0300504b03041400060008000000210056f37e3a0c08000014220000160000007468656d652f7468656d652f
+7468656d65312e786d6cec5acd8b1bc915bf07f23f347d97a7bbf53d585ef4e9597bc61e2cd9618f25a9a42e4f7597e82acd8c080b8bf7140281c026ec210b21
+971c42c84216629243fe9738d86c367f445e55b55a5552c9f381594c188f0fdda5df7bf5abf75ebdf7babaef7f729950ef1c679cb0b4e587f702dfc3e9844d49
+3a6ff9cf478352c3f7b840e9145196e296bfc2dcffe4c14f7f721f1d8a1827d803f9941fa2961f0bb1383c38e0131846fc1e5be0147e9bb12c41026eb3f9c134
+4317a037a1075110d40e124452df4b51026a9fce666482bd7fbffec7f77ff8fa5f5ffc12fefb0fd673f4294c940a2e0726341bca19b025a8b0d3b35022f88a77
+69e69d23daf261ba29bb18e14be17b1471013fb4fc40fdf30f1edc3f4087b910157b640db981fa97cbe502d3b348cd99cdc7c5a4413f6a54c242bf0250b18beb
+37e45fa14f01d064022bd55c4c9d61b51634a21c6b80f4a54377b31e966dbca1bfbcc3396cd63a51c5d2af405a7f65071f0c9afd5ed5c22b90c65777f0ed20ea
+34cb165e8134beb683aff4dbf5a86fe11528a6243ddb45d7ea8d462d47179019a3474e78b3560beabd1cbe41413414d125a798b154ec8bb504bd64d900001248
+9120a927560b3c431308e6f64230eef5085f50b4f2bd054a1987e1200a4308bd4a10157fcae2e81023435af202267c6748f2f1f824230bd1f21f8156df80bc7d
+fdfacdabefdebcfadb9b2fbf7cf3ea2fde3199c742abb2e48e503a37e57ef8e3affffbcd17de7ffefafb1fbefa8d1bcf4dfcbb3fffe2dddffff93ef5b0d536a6
+78fbdb6fdf7df7eddbaf7ff5fd9fbe72686f67686cc24724c1dc7b822fbc672c81052a53d8fcf138bb99c42846c49468a7738e52246771e8ef8bd8423f59218a
+1cb80eb6edf8228354e3023e5cbeb4080fe36c298843e3e338b180278cd10ecb9c56782ce732cc3c5aa673f7e4d9d2c43d43e8dc357717a59697fbcb05e458e2
+52d98db145f394a254a0394eb1f0e46fec0c63c7ea3e23c4b2eb0999648cb399f03e235e0711a74946646c45d346e88824e097958b20f8dbb2cdc90bafc3a86b
+d53d7c6e23616f20ea203fc2d432e343b4142871a91ca1849a063f462276911caeb28989eb73019e9e63cabcfe1473ee92799ac17a0da73f4690dd9c6e3fa1ab
+c44666829cb9741e23c64c648f9d7563942c5cd821496313fb293f831045de29132ef809b37788bc073fa074afbb5f106cb9fbea6cf01cb29c49691320f29765
+e6f0e543ccacf81daee80c6157aa6967899562db197146476739b742fb18638a2ed01463eff9a70e061db6b06cbe21fd2886ac72845d81f508d9b12aef53ccb1
+a79a9bdd3c794cb815b2433c677bf89cacb612cf0aa509caf6697e025e376dde1f67b0191deb7c4a276726f009815610e2c56994a71c7418c1bd57eb698cac02
+26efb93b5e5799e5bfebec31d8972f2d1ad7d89720836f2c0389dd9479af6d46885a136c0266848877ec4ab72062b97f23228bab125b3ae566f6a6ddb801ba23
+abe949487a4507f4e3753ed05fbcfddd378e10fc30dd8e5bb195aa6ed8e7ec4b25475bddcd3edc764fd365d9947cfc2d4d0f2dd3530c5564375fdd7534771d8d
+ff7fdfd1ecdbcf777dccbe6ee3ae8ff1a1bfb8eb63f2a3950fd3c76c5a17e86ae4f1823ee651873ec9de339f19a1742856141f7375ecc3e169663a804129a78e
+3d717106b888e152963998c0c2cd33a464bc8c899f11110f63b480b3a1d0974ae63c573de7de8271383252c34edd124f97c9099beaa34e75b614e8caca91d88c
+07553874d2e3704c2534ba56cf07253f759e0a7c15dbb93a665d1390b23721614c6693283b48d4d783579090a7661f8645d3c1a221d5af5db5630aa05678051e
+b73d78486ff9d58a240447e57c02adf954fa49bb7aed5de5cc0fe9e97dc6b422008e15f54ae06cbef0745372ddbb3cb93a1d6ad7f0b44542394587954d425946
+35783c8687e03c3ae5e87568dcd4d7cd8d4b2d7ad2146a3e88ef0d8d7ae37d2c6eeb6b90dbce0d343533054dbd0bd8e3116c3adf9ba045cb9fc199315c260b08
+1e2e1fb9109dc3fb9789c8f48ebf4d6a59645cf4108fb5c555d6d1fe4988c0994749d2f2e5fa0b3fd05425114dae095bf7632517c90df7b19103afdb5ec6b319
+9e08d3efc688b4b4be8514af9385f357257e7bb094644b70f7309e5e7863bacc9e2108b16a3d94de9d120eaf0e42edea298177614526dbc4df5665cab3bff932
+4ac5901e477411a3bca498d95cc3554129e8a8bbc206c65dbe6630a86192bc128ee7b2c29a46b5ca6951bb3487bd65f76a216939236b6e8aa6955664d974a731
+6b86751dd8b2e5edaabcc16a6d62486a6689d7b97b3be736d7c96eab5128ca0418bcb0dfed6abf416d3399454d32decdc33269e7a376f1582ff00a6ad7a91246
+daafadd56ed9ad2812cee960f056a51fe4b6a3168666ebc652595abd3b37df6bb3f14b481e3d68739754bfe9a629dcc9a8e48bd34cf976cca6abfc92729d68b4
+cf65532a91347d86671e995eb6fcc8d539eab7ad61de0d28b41493c5ab1074767bb6608e97a27ac316c23ac08ba0d29bd2162e24d4ccd07b17c2ea44d1455b5c
+ae29cb5e1df0ca845caf1a4c9b5b0aae76ad08affe3304bded5075763af702ed4b91e717b8f2961969f93f0faaed4a37aa764b41a3da2f55ca95a0d4a8b6cba5
+76b55a0efbd530e875a2cf819e8893b0aa3f7e18c04b20baca3f8150e33b9f4124ebf75cf7262c3960ea338703e57df5194418b93e8318c90f1c7c7024d08afa
+61256a47dd52b717d64a95a8572b35eae576a91bd57a511b8a766dd0fedcf7ce1538ecf47a8341352ad5ba80ab04ed6aa9dd29774bb546bf130dc27ea5170038
+2f3f97f01403365bdb022e15af07ff030000ffff0300504b0304140006000800000021000dd1909fb60000001b010000270000007468656d652f7468656d652f
+5f72656c732f7468656d654d616e616765722e786d6c2e72656c73848f4d0ac2301484f78277086f6fd3ba109126dd88d0add40384e4350d363f2451eced0dae
+2c082e8761be9969bb979dc9136332de3168aa1a083ae995719ac16db8ec8e4052164e89d93b64b060828e6f37ed1567914b284d262452282e3198720e274a93
+9cd08a54f980ae38a38f56e422a3a641c8bbd048f7757da0f19b017cc524bd62107bd5001996509affb3fd381a89672f1f165dfe514173d9850528a2c6cce023
+9baa4c04ca5bbabac4df000000ffff0300504b01022d0014000600080000002100e9de0fbfff0000001c0200001300000000000000000000000000000000005b
+436f6e74656e745f54797065735d2e786d6c504b01022d0014000600080000002100a5d6a7e7c0000000360100000b0000000000000000000000000030010000
+5f72656c732f2e72656c73504b01022d00140006000800000021006b799616830000008a0000001c00000000000000000000000000190200007468656d652f74
+68656d652f7468656d654d616e616765722e786d6c504b01022d001400060008000000210056f37e3a0c080000142200001600000000000000000000000000d6
+0200007468656d652f7468656d652f7468656d65312e786d6c504b01022d00140006000800000021000dd1909fb60000001b0100002700000000000000000000
+000000160b00007468656d652f7468656d652f5f72656c732f7468656d654d616e616765722e786d6c2e72656c73504b050600000000050005005d010000110c00000000}
+{\*\colorschememapping 3c3f786d6c2076657273696f6e3d22312e302220656e636f64696e673d225554462d3822207374616e64616c6f6e653d22796573223f3e0d0a3c613a636c724d
+617020786d6c6e733a613d22687474703a2f2f736368656d61732e6f70656e786d6c666f726d6174732e6f72672f64726177696e676d6c2f323030362f6d6169
+6e22206267313d226c743122207478313d22646b3122206267323d226c743222207478323d22646b322220616363656e74313d22616363656e74312220616363
+656e74323d22616363656e74322220616363656e74333d22616363656e74332220616363656e74343d22616363656e74342220616363656e74353d22616363656e74352220616363656e74363d22616363656e74362220686c696e6b3d22686c696e6b2220666f6c486c696e6b3d22666f6c486c696e6b222f3e}
+{\*\latentstyles\lsdstimax376\lsdlockeddef0\lsdsemihiddendef0\lsdunhideuseddef0\lsdqformatdef0\lsdprioritydef99{\lsdlockedexcept \lsdqformat1 \lsdpriority0 \lsdlocked0 Normal;\lsdqformat1 \lsdpriority9 \lsdlocked0 heading 1;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 2;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 3;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 4;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 5;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 6;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 7;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 8;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority9 \lsdlocked0 heading 9;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 1;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 5;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 6;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 7;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 8;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index 9;
+\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 1;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 2;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 3;
+\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 4;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 5;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 6;
+\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 7;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 8;\lsdsemihidden1 \lsdunhideused1 \lsdpriority39 \lsdlocked0 toc 9;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Normal Indent;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 footnote text;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 annotation text;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 header;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 footer;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 index heading;\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority35 \lsdlocked0 caption;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 table of figures;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 envelope address;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 envelope return;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 footnote reference;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 annotation reference;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 line number;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 page number;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 endnote reference;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 endnote text;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 table of authorities;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 macro;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 toa heading;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Bullet;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Number;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List 3;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List 5;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Bullet 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Bullet 3;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Bullet 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Bullet 5;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Number 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Number 3;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Number 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Number 5;\lsdqformat1 \lsdpriority10 \lsdlocked0 Title;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Closing;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Signature;\lsdsemihidden1 \lsdunhideused1 \lsdpriority1 \lsdlocked0 Default Paragraph Font;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text Indent;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Continue;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Continue 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Continue 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Continue 4;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 List Continue 5;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Message Header;\lsdqformat1 \lsdpriority11 \lsdlocked0 Subtitle;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Salutation;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Date;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text First Indent;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text First Indent 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Note Heading;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text Indent 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Body Text Indent 3;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Block Text;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Hyperlink;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 FollowedHyperlink;\lsdqformat1 \lsdpriority22 \lsdlocked0 Strong;
+\lsdqformat1 \lsdpriority20 \lsdlocked0 Emphasis;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Document Map;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Plain Text;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 E-mail Signature;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Top of Form;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Bottom of Form;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Normal (Web);\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Acronym;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Address;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Cite;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Code;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Definition;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Keyboard;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Preformatted;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Sample;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Typewriter;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 HTML Variable;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Normal Table;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 annotation subject;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 No List;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Outline List 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Outline List 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Outline List 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Simple 1;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Simple 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Simple 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Classic 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Classic 2;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Classic 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Classic 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Colorful 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Colorful 2;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Colorful 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Columns 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Columns 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Columns 3;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Columns 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Columns 5;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 2;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 5;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 6;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 7;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Grid 8;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 2;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 4;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 5;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 6;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 7;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table List 8;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table 3D effects 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table 3D effects 2;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table 3D effects 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Contemporary;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Elegant;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Professional;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Subtle 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Subtle 2;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Web 1;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Web 2;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Web 3;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Balloon Text;\lsdpriority39 \lsdlocked0 Table Grid;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Table Theme;\lsdsemihidden1 \lsdlocked0 Placeholder Text;
+\lsdqformat1 \lsdpriority1 \lsdlocked0 No Spacing;\lsdpriority60 \lsdlocked0 Light Shading;\lsdpriority61 \lsdlocked0 Light List;\lsdpriority62 \lsdlocked0 Light Grid;\lsdpriority63 \lsdlocked0 Medium Shading 1;\lsdpriority64 \lsdlocked0 Medium Shading 2;
+\lsdpriority65 \lsdlocked0 Medium List 1;\lsdpriority66 \lsdlocked0 Medium List 2;\lsdpriority67 \lsdlocked0 Medium Grid 1;\lsdpriority68 \lsdlocked0 Medium Grid 2;\lsdpriority69 \lsdlocked0 Medium Grid 3;\lsdpriority70 \lsdlocked0 Dark List;
+\lsdpriority71 \lsdlocked0 Colorful Shading;\lsdpriority72 \lsdlocked0 Colorful List;\lsdpriority73 \lsdlocked0 Colorful Grid;\lsdpriority60 \lsdlocked0 Light Shading Accent 1;\lsdpriority61 \lsdlocked0 Light List Accent 1;
+\lsdpriority62 \lsdlocked0 Light Grid Accent 1;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 1;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 1;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 1;\lsdsemihidden1 \lsdlocked0 Revision;
+\lsdqformat1 \lsdpriority34 \lsdlocked0 List Paragraph;\lsdqformat1 \lsdpriority29 \lsdlocked0 Quote;\lsdqformat1 \lsdpriority30 \lsdlocked0 Intense Quote;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 1;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 1;
+\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 1;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 1;\lsdpriority70 \lsdlocked0 Dark List Accent 1;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 1;\lsdpriority72 \lsdlocked0 Colorful List Accent 1;
+\lsdpriority73 \lsdlocked0 Colorful Grid Accent 1;\lsdpriority60 \lsdlocked0 Light Shading Accent 2;\lsdpriority61 \lsdlocked0 Light List Accent 2;\lsdpriority62 \lsdlocked0 Light Grid Accent 2;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 2;
+\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 2;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 2;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 2;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 2;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 2;
+\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 2;\lsdpriority70 \lsdlocked0 Dark List Accent 2;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 2;\lsdpriority72 \lsdlocked0 Colorful List Accent 2;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 2;
+\lsdpriority60 \lsdlocked0 Light Shading Accent 3;\lsdpriority61 \lsdlocked0 Light List Accent 3;\lsdpriority62 \lsdlocked0 Light Grid Accent 3;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 3;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 3;
+\lsdpriority65 \lsdlocked0 Medium List 1 Accent 3;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 3;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 3;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 3;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 3;
+\lsdpriority70 \lsdlocked0 Dark List Accent 3;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 3;\lsdpriority72 \lsdlocked0 Colorful List Accent 3;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 3;\lsdpriority60 \lsdlocked0 Light Shading Accent 4;
+\lsdpriority61 \lsdlocked0 Light List Accent 4;\lsdpriority62 \lsdlocked0 Light Grid Accent 4;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 4;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 4;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 4;
+\lsdpriority66 \lsdlocked0 Medium List 2 Accent 4;\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 4;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 4;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 4;\lsdpriority70 \lsdlocked0 Dark List Accent 4;
+\lsdpriority71 \lsdlocked0 Colorful Shading Accent 4;\lsdpriority72 \lsdlocked0 Colorful List Accent 4;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 4;\lsdpriority60 \lsdlocked0 Light Shading Accent 5;\lsdpriority61 \lsdlocked0 Light List Accent 5;
+\lsdpriority62 \lsdlocked0 Light Grid Accent 5;\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 5;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 5;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 5;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 5;
+\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 5;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 5;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 5;\lsdpriority70 \lsdlocked0 Dark List Accent 5;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 5;
+\lsdpriority72 \lsdlocked0 Colorful List Accent 5;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 5;\lsdpriority60 \lsdlocked0 Light Shading Accent 6;\lsdpriority61 \lsdlocked0 Light List Accent 6;\lsdpriority62 \lsdlocked0 Light Grid Accent 6;
+\lsdpriority63 \lsdlocked0 Medium Shading 1 Accent 6;\lsdpriority64 \lsdlocked0 Medium Shading 2 Accent 6;\lsdpriority65 \lsdlocked0 Medium List 1 Accent 6;\lsdpriority66 \lsdlocked0 Medium List 2 Accent 6;
+\lsdpriority67 \lsdlocked0 Medium Grid 1 Accent 6;\lsdpriority68 \lsdlocked0 Medium Grid 2 Accent 6;\lsdpriority69 \lsdlocked0 Medium Grid 3 Accent 6;\lsdpriority70 \lsdlocked0 Dark List Accent 6;\lsdpriority71 \lsdlocked0 Colorful Shading Accent 6;
+\lsdpriority72 \lsdlocked0 Colorful List Accent 6;\lsdpriority73 \lsdlocked0 Colorful Grid Accent 6;\lsdqformat1 \lsdpriority19 \lsdlocked0 Subtle Emphasis;\lsdqformat1 \lsdpriority21 \lsdlocked0 Intense Emphasis;
+\lsdqformat1 \lsdpriority31 \lsdlocked0 Subtle Reference;\lsdqformat1 \lsdpriority32 \lsdlocked0 Intense Reference;\lsdqformat1 \lsdpriority33 \lsdlocked0 Book Title;\lsdsemihidden1 \lsdunhideused1 \lsdpriority37 \lsdlocked0 Bibliography;
+\lsdsemihidden1 \lsdunhideused1 \lsdqformat1 \lsdpriority39 \lsdlocked0 TOC Heading;\lsdpriority41 \lsdlocked0 Plain Table 1;\lsdpriority42 \lsdlocked0 Plain Table 2;\lsdpriority43 \lsdlocked0 Plain Table 3;\lsdpriority44 \lsdlocked0 Plain Table 4;
+\lsdpriority45 \lsdlocked0 Plain Table 5;\lsdpriority40 \lsdlocked0 Grid Table Light;\lsdpriority46 \lsdlocked0 Grid Table 1 Light;\lsdpriority47 \lsdlocked0 Grid Table 2;\lsdpriority48 \lsdlocked0 Grid Table 3;\lsdpriority49 \lsdlocked0 Grid Table 4;
+\lsdpriority50 \lsdlocked0 Grid Table 5 Dark;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 1;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 1;
+\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 1;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 1;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 1;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 1;
+\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 1;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 2;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 2;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 2;
+\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 2;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 2;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 2;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 2;
+\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 3;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 3;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 3;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 3;
+\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 3;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 3;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 3;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 4;
+\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 4;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 4;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 4;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 4;
+\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 4;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 4;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 5;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 5;
+\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 5;\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 5;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 5;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 5;
+\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 5;\lsdpriority46 \lsdlocked0 Grid Table 1 Light Accent 6;\lsdpriority47 \lsdlocked0 Grid Table 2 Accent 6;\lsdpriority48 \lsdlocked0 Grid Table 3 Accent 6;
+\lsdpriority49 \lsdlocked0 Grid Table 4 Accent 6;\lsdpriority50 \lsdlocked0 Grid Table 5 Dark Accent 6;\lsdpriority51 \lsdlocked0 Grid Table 6 Colorful Accent 6;\lsdpriority52 \lsdlocked0 Grid Table 7 Colorful Accent 6;
+\lsdpriority46 \lsdlocked0 List Table 1 Light;\lsdpriority47 \lsdlocked0 List Table 2;\lsdpriority48 \lsdlocked0 List Table 3;\lsdpriority49 \lsdlocked0 List Table 4;\lsdpriority50 \lsdlocked0 List Table 5 Dark;
+\lsdpriority51 \lsdlocked0 List Table 6 Colorful;\lsdpriority52 \lsdlocked0 List Table 7 Colorful;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 1;\lsdpriority47 \lsdlocked0 List Table 2 Accent 1;\lsdpriority48 \lsdlocked0 List Table 3 Accent 1;
+\lsdpriority49 \lsdlocked0 List Table 4 Accent 1;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 1;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 1;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 1;
+\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 2;\lsdpriority47 \lsdlocked0 List Table 2 Accent 2;\lsdpriority48 \lsdlocked0 List Table 3 Accent 2;\lsdpriority49 \lsdlocked0 List Table 4 Accent 2;
+\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 2;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 2;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 2;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 3;
+\lsdpriority47 \lsdlocked0 List Table 2 Accent 3;\lsdpriority48 \lsdlocked0 List Table 3 Accent 3;\lsdpriority49 \lsdlocked0 List Table 4 Accent 3;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 3;
+\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 3;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 3;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 4;\lsdpriority47 \lsdlocked0 List Table 2 Accent 4;
+\lsdpriority48 \lsdlocked0 List Table 3 Accent 4;\lsdpriority49 \lsdlocked0 List Table 4 Accent 4;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 4;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 4;
+\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 4;\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 5;\lsdpriority47 \lsdlocked0 List Table 2 Accent 5;\lsdpriority48 \lsdlocked0 List Table 3 Accent 5;
+\lsdpriority49 \lsdlocked0 List Table 4 Accent 5;\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 5;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 5;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 5;
+\lsdpriority46 \lsdlocked0 List Table 1 Light Accent 6;\lsdpriority47 \lsdlocked0 List Table 2 Accent 6;\lsdpriority48 \lsdlocked0 List Table 3 Accent 6;\lsdpriority49 \lsdlocked0 List Table 4 Accent 6;
+\lsdpriority50 \lsdlocked0 List Table 5 Dark Accent 6;\lsdpriority51 \lsdlocked0 List Table 6 Colorful Accent 6;\lsdpriority52 \lsdlocked0 List Table 7 Colorful Accent 6;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Mention;
+\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Smart Hyperlink;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Hashtag;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Unresolved Mention;\lsdsemihidden1 \lsdunhideused1 \lsdlocked0 Smart Link;}}{\*\datastore 01050000
+02000000180000004d73786d6c322e534158584d4c5265616465722e362e3000000000000000000000060000
+d0cf11e0a1b11ae1000000000000000000000000000000003e000300feff090006000000000000000000000001000000010000000000000000100000feffffff00000000feffffff0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+fffffffffffffffffdfffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffff52006f006f007400200045006e00740072007900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000500ffffffffffffffffffffffff0c6ad98892f1d411a65f0040963251e5000000000000000000000000e028
+8e0fa845dd01feffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffff000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000105000000000000}}
