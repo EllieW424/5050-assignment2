@@ -206,7 +206,8 @@ public final class InterlockingImpl implements Interlocking {
     if (trainName == null || trainName.isEmpty()) {
       throw new IllegalArgumentException("The train name cannot be null or empty");
     }
-    if (trains.containsKey(trainName)) {
+    TrainState existingTrain = trains.get(trainName);
+    if (existingTrain != null && existingTrain.active) {
       throw new IllegalArgumentException("The train name is already in use");
     }
   }

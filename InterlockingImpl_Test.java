@@ -174,6 +174,18 @@ public class InterlockingImpl_Test {
     }
   }
 
+  @Test
+  public void completedTrainName_canBeReusedForANewTrain() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("reusable", 3, 4);
+    interlocking.moveTrains(new String[] {"reusable"});
+    interlocking.moveTrains(new String[] {"reusable"});
+
+    interlocking.addTrain("reusable", 1, 8);
+    assertEquals(1, interlocking.getTrain("reusable"));
+    assertEquals("reusable", interlocking.getSection(1));
+  }
+
   private static void verifyRoute(int entry, int destination, int[] route) {
     Interlocking interlocking = new InterlockingImpl();
     String name = "route" + entry + "to" + destination;
