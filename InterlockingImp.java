@@ -8,11 +8,9 @@ import java.util.Map;
  * Controls train movement through the eleven-section Islington interlocking.
  *
  * <p>The implementation plans each call to {@link #moveTrains(String[])} from one snapshot and
- * applies the chosen moves atomically. A section occupied at the start of the round remains
- * unavailable until the next round, preventing same-round forward chains while also preventing
- * two trains from occupying one section, swapping across an edge, or crossing through a junction
- * at the same time. When both opposing freight trains are requested to enter section 7 in the
- * same call, they wait at the ends of the single-track branch.
+ * applies the chosen moves atomically. A train may only enter a section that was free in the
+ * snapshot, which prevents two trains from occupying one section, swapping across an edge, or
+ * crossing through a junction at the same time.
  */
 public final class InterlockingImpl implements Interlocking {
   private static final int FIRST_SECTION = 1;
@@ -50,6 +48,7 @@ public final class InterlockingImpl implements Interlocking {
       return 0;
     }
 
+    Map<Integer, String> snapshot = new HashMap<>(occupants);
     List<Move> candidates = new ArrayList<>();
     for (int i = 0; i < requested.size(); i++) {
       TrainState train = requested.get(i);
@@ -58,7 +57,7 @@ public final class InterlockingImpl implements Interlocking {
       candidates.add(new Move(train, from, to, i));
     }
 
-    int selectedMask = selectBestSafeSet(candidates);
+    int selectedMask = selectBestSafeSet(candidates, snapshot);
     applySelectedMoves(candidates, selectedMask);
     updateWaitingRounds(candidates, selectedMask);
     return Integer.bitCount(selectedMask);
@@ -79,13 +78,13 @@ public final class InterlockingImpl implements Interlocking {
     return train.active ? train.currentSection() : EXIT;
   }
 
-  private int selectBestSafeSet(List<Move> candidates) {
+  private int selectBestSafeSet(List<Move> candidates, Map<Integer, String> snapshot) {
     int bestMask = 0;
     SelectionScore bestScore = SelectionScore.EMPTY;
     int combinations = 1 << candidates.size();
 
     for (int mask = 1; mask < combinations; mask++) {
-      if (!isSafeSelection(candidates, mask)) {
+      if (!isSafeSelection(candidates, mask, snapshot)) {
         continue;
       }
       SelectionScore score = SelectionScore.forSelection(candidates, mask);
@@ -97,7 +96,8 @@ public final class InterlockingImpl implements Interlocking {
     return bestMask;
   }
 
-  private boolean isSafeSelection(List<Move> candidates, int mask) {
+  private boolean isSafeSelection(
+      List<Move> candidates, int mask, Map<Integer, String> snapshot) {
     Map<Integer, Move> selectedByTarget = new HashMap<>();
     List<Move> selected = new ArrayList<>();
 
@@ -107,15 +107,18 @@ public final class InterlockingImpl implements Interlocking {
       }
       Move move = candidates.get(i);
       selected.add(move);
-      if (!move.isExit() && selectedByTarget.put(move.to, move) != null) {
+      if (move.isExit()) {
+        continue;
+      }
+      if (selectedByTarget.put(move.to, move) != null) {
         return false;
       }
-      if (!move.isExit() && occupants.containsKey(move.to)) {
-        // The next section must have a free-capacity token before this round starts.
-        // Another selected train leaving it cannot enable this transition in the same round.
+      // A section may only be entered when it was free in the snapshot taken at
+      // the start of the call; a section vacated during this call is not usable.
+      if (snapshot.containsKey(move.to)) {
         return false;
       }
-      if (hasRequestedOpposingFreightEntrance(move, candidates)) {
+      if (createsFreightLineDeadlock(move, snapshot)) {
         return false;
       }
     }
@@ -129,24 +132,32 @@ public final class InterlockingImpl implements Interlocking {
         }
       }
     }
+
     return true;
   }
 
-  private static boolean hasRequestedOpposingFreightEntrance(
-      Move move, List<Move> candidates) {
-    if (move.to != 7 || (move.from != 3 && move.from != 11)) {
-      return false;
+  /**
+   * The freight line 3-7-11 is single track. A train must not enter section 7 while an opposing
+   * train is waiting at the far end of the line, otherwise the two trains face each other on the
+   * line and neither can ever proceed. A train travelling in the same direction as the entering
+   * train is not opposing and does not block the entry.
+   */
+  private boolean createsFreightLineDeadlock(Move move, Map<Integer, String> snapshot) {
+    if (move.from == 3 && move.to == 7) {
+      return isOpposingFreight(snapshot.get(11), 3);
     }
-    // If both ends request 7, neither can pass the other on the single track.
-    // An unrequested train at the far end does not occupy the immediate target 7.
-    // In particular, a single 11->7 request must be able to reach its temporary stop.
-    int opposingEnd = move.from == 3 ? 11 : 3;
-    for (Move other : candidates) {
-      if (other.from == opposingEnd && other.to == 7) {
-        return true;
-      }
+    if (move.from == 11 && move.to == 7) {
+      return isOpposingFreight(snapshot.get(3), 11);
     }
     return false;
+  }
+
+  private boolean isOpposingFreight(String occupantName, int towardsSection) {
+    if (occupantName == null) {
+      return false;
+    }
+    TrainState occupant = trains.get(occupantName);
+    return occupant != null && occupant.destination() == towardsSection;
   }
 
   private static boolean movesSwapEdges(Move first, Move second) {
@@ -218,8 +229,7 @@ public final class InterlockingImpl implements Interlocking {
     if (trainName == null || trainName.isEmpty()) {
       throw new IllegalArgumentException("The train name cannot be null or empty");
     }
-    TrainState existingTrain = trains.get(trainName);
-    if (existingTrain != null && existingTrain.active) {
+    if (trains.containsKey(trainName)) {
       throw new IllegalArgumentException("The train name is already in use");
     }
   }
@@ -286,6 +296,10 @@ public final class InterlockingImpl implements Interlocking {
 
     private boolean atDestination() {
       return routeIndex == route.length - 1;
+    }
+
+    private int destination() {
+      return route[route.length - 1];
     }
   }
 
