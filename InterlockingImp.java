@@ -11,7 +11,8 @@ import java.util.Map;
  * applies the chosen moves atomically. A section occupied at the start of the round remains
  * unavailable until the next round, preventing same-round forward chains while also preventing
  * two trains from occupying one section, swapping across an edge, or crossing through a junction
- * at the same time.
+ * at the same time. When both opposing freight trains are requested to enter section 7 in the
+ * same call, they wait at the ends of the single-track branch.
  */
 public final class InterlockingImpl implements Interlocking {
   private static final int FIRST_SECTION = 1;
@@ -99,17 +100,6 @@ public final class InterlockingImpl implements Interlocking {
   private boolean isSafeSelection(List<Move> candidates, int mask) {
     Map<Integer, Move> selectedByTarget = new HashMap<>();
     List<Move> selected = new ArrayList<>();
-    Map<Integer, Integer> targetCounts = new HashMap<>();
-    Map<Integer, Integer> targetMaximumWait = new HashMap<>();
-
-    for (Move move : candidates) {
-      if (move.isExit()) {
-        continue;
-      }
-      targetCounts.put(move.to, targetCounts.getOrDefault(move.to, 0) + 1);
-      targetMaximumWait.put(
-          move.to, Math.max(targetMaximumWait.getOrDefault(move.to, 0), move.train.waitingRounds));
-    }
 
     for (int i = 0; i < candidates.size(); i++) {
       if (!isSelected(mask, i)) {
@@ -120,22 +110,12 @@ public final class InterlockingImpl implements Interlocking {
       if (!move.isExit() && selectedByTarget.put(move.to, move) != null) {
         return false;
       }
-      if (!move.isExit()
-          && targetCounts.get(move.to) > 1
-          && targetMaximumWait.get(move.to) == 0) {
-        // Give a newly detected contention one quiet round. This avoids making
-        // the request order itself decide which train enters a shared section.
+      if (!move.isExit() && occupants.containsKey(move.to)) {
+        // The next section must have a free-capacity token before this round starts.
+        // Another selected train leaving it cannot enable this transition in the same round.
         return false;
       }
-    }
-
-    for (Move move : selected) {
-      if (move.isExit()) {
-        continue;
-      }
-      if (occupants.containsKey(move.to)) {
-        // A section occupied at the start of the round is not available until the
-        // next round, even when its current train is also moving or exiting.
+      if (hasRequestedOpposingFreightEntrance(move, candidates)) {
         return false;
       }
     }
@@ -150,6 +130,23 @@ public final class InterlockingImpl implements Interlocking {
       }
     }
     return true;
+  }
+
+  private static boolean hasRequestedOpposingFreightEntrance(
+      Move move, List<Move> candidates) {
+    if (move.to != 7 || (move.from != 3 && move.from != 11)) {
+      return false;
+    }
+    // If both ends request 7, neither can pass the other on the single track.
+    // An unrequested train at the far end does not occupy the immediate target 7.
+    // In particular, a single 11->7 request must be able to reach its temporary stop.
+    int opposingEnd = move.from == 3 ? 11 : 3;
+    for (Move other : candidates) {
+      if (other.from == opposingEnd && other.to == 7) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static boolean movesSwapEdges(Move first, Move second) {
