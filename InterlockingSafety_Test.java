@@ -146,6 +146,17 @@ public class InterlockingSafety_Test {
   }
 
   @Test
+  public void freightTrainEntersSection7WhenUnrequestedOpponentWaitsAtFarEnd() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("north", 11, 3);
+    interlocking.addTrain("south", 3, 11);
+
+    assertEquals(1, interlocking.moveTrains(new String[] {"south"}));
+    assertEquals(7, interlocking.getTrain("south"));
+    assertEquals(11, interlocking.getTrain("north"));
+  }
+
+  @Test
   public void freightTrainEntersSection7WhenFarEndTrainIsLeaving() {
     Interlocking interlocking = new InterlockingImpl();
     interlocking.addTrain("lead", 3, 11);

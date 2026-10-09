@@ -118,7 +118,7 @@ public final class InterlockingImpl implements Interlocking {
       if (snapshot.containsKey(move.to)) {
         return false;
       }
-      if (createsFreightLineDeadlock(move, snapshot)) {
+      if (createsFreightLineDeadlock(move, snapshot, candidates)) {
         return false;
       }
     }
@@ -138,26 +138,33 @@ public final class InterlockingImpl implements Interlocking {
 
   /**
    * The freight line 3-7-11 is single track. A train must not enter section 7 while an opposing
-   * train is waiting at the far end of the line, otherwise the two trains face each other on the
-   * line and neither can ever proceed. A train travelling in the same direction as the entering
-   * train is not opposing and does not block the entry.
+   * train that is also part of this movement request waits at the far end of the line, otherwise
+   * the two trains face each other on the line and neither can ever proceed. An unrequested train
+   * at the far end does not block the entry: it stays put while the entering train crosses and
+   * exits, so no deadlock arises. A train travelling in the same direction is not opposing.
    */
-  private boolean createsFreightLineDeadlock(Move move, Map<Integer, String> snapshot) {
+  private boolean createsFreightLineDeadlock(
+      Move move, Map<Integer, String> snapshot, List<Move> candidates) {
     if (move.from == 3 && move.to == 7) {
-      return isOpposingFreight(snapshot.get(11), 3);
+      return isOpposingFreight(snapshot.get(11), 3, candidates);
     }
     if (move.from == 11 && move.to == 7) {
-      return isOpposingFreight(snapshot.get(3), 11);
+      return isOpposingFreight(snapshot.get(3), 11, candidates);
     }
     return false;
   }
 
-  private boolean isOpposingFreight(String occupantName, int towardsSection) {
+  private boolean isOpposingFreight(
+      String occupantName, int towardsSection, List<Move> candidates) {
     if (occupantName == null) {
       return false;
     }
-    TrainState occupant = trains.get(occupantName);
-    return occupant != null && occupant.destination() == towardsSection;
+    for (Move candidate : candidates) {
+      if (candidate.train.name.equals(occupantName)) {
+        return candidate.train.destination() == towardsSection;
+      }
+    }
+    return false;
   }
 
   private static boolean movesSwapEdges(Move first, Move second) {
