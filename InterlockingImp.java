@@ -8,9 +8,12 @@ import java.util.Map;
  * Controls train movement through the eleven-section Islington interlocking.
  *
  * <p>The implementation plans each call to {@link #moveTrains(String[])} from one snapshot and
- * applies the chosen moves atomically. A train may only enter a section that was free in the
- * snapshot, which prevents two trains from occupying one section, swapping across an edge, or
- * crossing through a junction at the same time.
+ * applies the chosen moves atomically. A train may enter a section that was occupied at the start
+ * of the call only as part of a forward chain whose occupant is also selected to leave; a section
+ * requested by several trains while occupied is contested and cannot be inherited through a
+ * chain. This prevents two trains from occupying one section, swapping across an edge, or
+ * crossing through a junction at the same time. When both ends of the single-track freight line
+ * request section 7 in the same call, neither may enter it.
  */
 public final class InterlockingImpl implements Interlocking {
   private static final int FIRST_SECTION = 1;
@@ -56,8 +59,9 @@ public final class InterlockingImpl implements Interlocking {
       int to = train.atDestination() ? EXIT : train.nextSection();
       candidates.add(new Move(train, from, to, i));
     }
+    boolean[] contested = contestedOccupiedTargets(candidates, snapshot);
 
-    int selectedMask = selectBestSafeSet(candidates, snapshot);
+    int selectedMask = selectBestSafeSet(candidates, snapshot, contested);
     applySelectedMoves(candidates, selectedMask);
     updateWaitingRounds(candidates, selectedMask);
     return Integer.bitCount(selectedMask);
@@ -78,13 +82,14 @@ public final class InterlockingImpl implements Interlocking {
     return train.active ? train.currentSection() : EXIT;
   }
 
-  private int selectBestSafeSet(List<Move> candidates, Map<Integer, String> snapshot) {
+  private int selectBestSafeSet(
+      List<Move> candidates, Map<Integer, String> snapshot, boolean[] contested) {
     int bestMask = 0;
     SelectionScore bestScore = SelectionScore.EMPTY;
     int combinations = 1 << candidates.size();
 
     for (int mask = 1; mask < combinations; mask++) {
-      if (!isSafeSelection(candidates, mask, snapshot)) {
+      if (!isSafeSelection(candidates, mask, snapshot, contested)) {
         continue;
       }
       SelectionScore score = SelectionScore.forSelection(candidates, mask);
@@ -96,8 +101,29 @@ public final class InterlockingImpl implements Interlocking {
     return bestMask;
   }
 
+  /**
+   * A section that is occupied in the snapshot and requested by more than one train in this call
+   * is contested. Its capacity cannot be inherited through a forward chain, so every train that
+   * requests it must wait until the occupant has left.
+   */
+  private static boolean[] contestedOccupiedTargets(
+      List<Move> candidates, Map<Integer, String> snapshot) {
+    int[] requests = new int[LAST_SECTION + 1];
+    for (Move move : candidates) {
+      if (!move.isExit()) {
+        requests[move.to]++;
+      }
+    }
+    boolean[] contested = new boolean[LAST_SECTION + 1];
+    for (int section = FIRST_SECTION; section <= LAST_SECTION; section++) {
+      contested[section] = requests[section] > 1 && snapshot.containsKey(section);
+    }
+    return contested;
+  }
+
   private boolean isSafeSelection(
-      List<Move> candidates, int mask, Map<Integer, String> snapshot) {
+      List<Move> candidates, int mask, Map<Integer, String> snapshot, boolean[] contested) {
+    Map<Integer, Move> selectedByOrigin = new HashMap<>();
     Map<Integer, Move> selectedByTarget = new HashMap<>();
     List<Move> selected = new ArrayList<>();
 
@@ -107,19 +133,30 @@ public final class InterlockingImpl implements Interlocking {
       }
       Move move = candidates.get(i);
       selected.add(move);
+      selectedByOrigin.put(move.from, move);
+      if (!move.isExit() && selectedByTarget.put(move.to, move) != null) {
+        return false;
+      }
+      if (!move.isExit() && contested[move.to]) {
+        return false;
+      }
+      if (!move.isExit() && createsFreightLineDeadlock(move, candidates)) {
+        return false;
+      }
+    }
+
+    for (Move move : selected) {
       if (move.isExit()) {
         continue;
       }
-      if (selectedByTarget.put(move.to, move) != null) {
-        return false;
-      }
-      // A section may only be entered when it was free in the snapshot taken at
-      // the start of the call; a section vacated during this call is not usable.
-      if (snapshot.containsKey(move.to)) {
-        return false;
-      }
-      if (createsFreightLineDeadlock(move, snapshot, candidates)) {
-        return false;
+      // A section occupied in the snapshot may only be entered as part of a
+      // forward chain: its current occupant must also be selected to leave it.
+      String occupantName = snapshot.get(move.to);
+      if (occupantName != null) {
+        Move occupantMove = selectedByOrigin.get(move.to);
+        if (occupantMove == null || !occupantMove.train.name.equals(occupantName)) {
+          return false;
+        }
       }
     }
 
@@ -137,31 +174,19 @@ public final class InterlockingImpl implements Interlocking {
   }
 
   /**
-   * The freight line 3-7-11 is single track. A train must not enter section 7 while an opposing
-   * train that is also part of this movement request waits at the far end of the line, otherwise
-   * the two trains face each other on the line and neither can ever proceed. An unrequested train
-   * at the far end does not block the entry: it stays put while the entering train crosses and
-   * exits, so no deadlock arises. A train travelling in the same direction is not opposing.
+   * The freight line 3-7-11 is single track. When both ends of the line request section 7 in the
+   * same call, neither train may enter it: the two would face each other on the branch and could
+   * never pass. A request from only one end is allowed, because an unrequested train at the far
+   * end stays put while the entering train crosses and exits.
    */
-  private boolean createsFreightLineDeadlock(
-      Move move, Map<Integer, String> snapshot, List<Move> candidates) {
-    if (move.from == 3 && move.to == 7) {
-      return isOpposingFreight(snapshot.get(11), 3, candidates);
-    }
-    if (move.from == 11 && move.to == 7) {
-      return isOpposingFreight(snapshot.get(3), 11, candidates);
-    }
-    return false;
-  }
-
-  private boolean isOpposingFreight(
-      String occupantName, int towardsSection, List<Move> candidates) {
-    if (occupantName == null) {
+  private static boolean createsFreightLineDeadlock(Move move, List<Move> candidates) {
+    if (move.to != 7 || (move.from != 3 && move.from != 11)) {
       return false;
     }
-    for (Move candidate : candidates) {
-      if (candidate.train.name.equals(occupantName)) {
-        return candidate.train.destination() == towardsSection;
+    int opposingEnd = move.from == 3 ? 11 : 3;
+    for (Move other : candidates) {
+      if (other.from == opposingEnd && other.to == 7) {
+        return true;
       }
     }
     return false;
@@ -236,7 +261,10 @@ public final class InterlockingImpl implements Interlocking {
     if (trainName == null || trainName.isEmpty()) {
       throw new IllegalArgumentException("The train name cannot be null or empty");
     }
-    if (trains.containsKey(trainName)) {
+    // A name is only in use while its train is still present; the name of a
+    // train that has exited the corridor may be reused for a new train.
+    TrainState existingTrain = trains.get(trainName);
+    if (existingTrain != null && existingTrain.active) {
       throw new IllegalArgumentException("The train name is already in use");
     }
   }
@@ -345,10 +373,11 @@ public final class InterlockingImpl implements Interlocking {
   }
 
   private static final class SelectionScore {
-    private static final SelectionScore EMPTY = new SelectionScore(0, 0, 0, 0, 0);
+    private static final SelectionScore EMPTY = new SelectionScore(0, 0, 0, 0, 0, 0);
 
     private final int passengerWesternMoves;
     private final int moveCount;
+    private final int easternReleases;
     private final long waitedRounds;
     private final long sequencePreference;
     private final long requestPreference;
@@ -356,11 +385,13 @@ public final class InterlockingImpl implements Interlocking {
     private SelectionScore(
         int passengerWesternMoves,
         int moveCount,
+        int easternReleases,
         long waitedRounds,
         long sequencePreference,
         long requestPreference) {
       this.passengerWesternMoves = passengerWesternMoves;
       this.moveCount = moveCount;
+      this.easternReleases = easternReleases;
       this.waitedRounds = waitedRounds;
       this.sequencePreference = sequencePreference;
       this.requestPreference = requestPreference;
@@ -369,6 +400,7 @@ public final class InterlockingImpl implements Interlocking {
     private static SelectionScore forSelection(List<Move> candidates, int mask) {
       int passengerMoves = 0;
       int count = 0;
+      int easternReleases = 0;
       long waits = 0;
       long sequences = 0;
       long requests = 0;
@@ -379,11 +411,12 @@ public final class InterlockingImpl implements Interlocking {
         Move move = candidates.get(i);
         passengerMoves += move.isPassengerWesternCrossing() ? 1 : 0;
         count++;
+        easternReleases += move.isEasternReturnMove() ? 1 : 0;
         waits += move.train.waitingRounds;
         sequences -= move.train.sequence;
         requests -= move.requestOrder;
       }
-      return new SelectionScore(passengerMoves, count, waits, sequences, requests);
+      return new SelectionScore(passengerMoves, count, easternReleases, waits, sequences, requests);
     }
 
     private boolean isBetterThan(SelectionScore other) {
@@ -392,6 +425,9 @@ public final class InterlockingImpl implements Interlocking {
       }
       if (moveCount != other.moveCount) {
         return moveCount > other.moveCount;
+      }
+      if (easternReleases != other.easternReleases) {
+        return easternReleases > other.easternReleases;
       }
       if (waitedRounds != other.waitedRounds) {
         return waitedRounds > other.waitedRounds;
