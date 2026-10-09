@@ -77,9 +77,6 @@ public class InterlockingSafety_Test {
     interlocking.addTrain("older", 9, 2);
     interlocking.addTrain("newer", 10, 2);
 
-    assertEquals(0, interlocking.moveTrains(new String[] {"newer", "older"}));
-    assertEquals(9, interlocking.getTrain("older"));
-    assertEquals(10, interlocking.getTrain("newer"));
     assertEquals(1, interlocking.moveTrains(new String[] {"newer", "older"}));
     assertEquals(6, interlocking.getTrain("older"));
     assertEquals(10, interlocking.getTrain("newer"));
@@ -90,7 +87,6 @@ public class InterlockingSafety_Test {
     Interlocking interlocking = new InterlockingImpl();
     interlocking.addTrain("first", 9, 2);
     interlocking.addTrain("second", 10, 2);
-    assertEquals(0, interlocking.moveTrains(new String[] {"first", "second"}));
 
     assertEquals(1, interlocking.moveTrains(new String[] {"first", "second"}));
     assertEquals(6, interlocking.getTrain("first"));
@@ -146,9 +142,55 @@ public class InterlockingSafety_Test {
     assertEquals(0, interlocking.moveTrains(new String[] {"north", "south"}));
     assertEquals(3, interlocking.getTrain("south"));
     assertEquals(11, interlocking.getTrain("north"));
-    assertEquals(1, interlocking.moveTrains(new String[] {"north", "south"}));
-    assertEquals(7, interlocking.getTrain("south"));
+    // Repeating the request cannot create a passing place on the single track.
+    assertEquals(0, interlocking.moveTrains(new String[] {"north", "south"}));
+    assertEquals(3, interlocking.getTrain("south"));
     assertEquals(11, interlocking.getTrain("north"));
+  }
+
+  @Test
+  public void freightCannotEnterSection7WhenTheUnrequestedOpposingTrainWouldTrapIt() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("south", 3, 11);
+    interlocking.addTrain("north", 11, 3);
+
+    assertEquals(0, interlocking.moveTrains(new String[] {"south"}));
+    assertEquals(0, interlocking.moveTrains(new String[] {"north"}));
+    assertEquals(3, interlocking.getTrain("south"));
+    assertEquals(11, interlocking.getTrain("north"));
+    assertNull(interlocking.getSection(7));
+  }
+
+  @Test
+  public void freightCanFollowATrainAtItsDestinationWithoutAnOpposingDeadlock() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("lead", 3, 11);
+    interlocking.moveTrains(new String[] {"lead"});
+    interlocking.moveTrains(new String[] {"lead"});
+    interlocking.addTrain("following", 3, 11);
+
+    assertEquals(1, interlocking.moveTrains(new String[] {"following"}));
+    assertEquals(7, interlocking.getTrain("following"));
+    assertEquals(11, interlocking.getTrain("lead"));
+    assertEquals(1, interlocking.moveTrains(new String[] {"lead", "following"}));
+    assertEquals(-1, interlocking.getTrain("lead"));
+    assertEquals(7, interlocking.getTrain("following"));
+    assertEquals(1, interlocking.moveTrains(new String[] {"following"}));
+    assertEquals(11, interlocking.getTrain("following"));
+  }
+
+  @Test
+  public void freightCanEnterSection7WhileTheOtherEndIsHeadingForSection4() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("branch", 3, 4);
+    interlocking.addTrain("through", 11, 3);
+
+    assertEquals(2, interlocking.moveTrains(new String[] {"through", "branch"}));
+    assertEquals(4, interlocking.getTrain("branch"));
+    assertEquals(7, interlocking.getTrain("through"));
+    assertEquals(2, interlocking.moveTrains(new String[] {"through", "branch"}));
+    assertEquals(-1, interlocking.getTrain("branch"));
+    assertEquals(3, interlocking.getTrain("through"));
   }
 
   @Test
@@ -170,11 +212,13 @@ public class InterlockingSafety_Test {
   }
 
   @Test
-  public void bulkScenario005_holdsBothTrainsContendingForSection7() {
+  public void bulkScenario005_preventsOpposingFreightDeadlock() {
     Interlocking interlocking = new InterlockingImpl();
     interlocking.addTrain("Train465", 4, 3);
     interlocking.addTrain("Train466", 1, 9);
     interlocking.addTrain("Train467", 10, 2);
+    // The supplied log places Train467 at 6 before the bulk movement request.
+    assertEquals(1, interlocking.moveTrains(new String[] {"Train467"}));
     interlocking.addTrain("Train468", 3, 11);
     interlocking.addTrain("Train469", 11, 3);
 
@@ -184,13 +228,13 @@ public class InterlockingSafety_Test {
             new String[] {"Train465", "Train466", "Train467", "Train468", "Train469"}));
     assertEquals(4, interlocking.getTrain("Train465"));
     assertEquals(5, interlocking.getTrain("Train466"));
-    assertEquals(6, interlocking.getTrain("Train467"));
+    assertEquals(2, interlocking.getTrain("Train467"));
     assertEquals(3, interlocking.getTrain("Train468"));
     assertEquals(11, interlocking.getTrain("Train469"));
   }
 
   @Test
-  public void bulkScenario010_holdsBothTrainsContendingForSection6() {
+  public void bulkScenario010_doesNotEnterSection6DuringTheRoundItIsVacated() {
     Interlocking interlocking = new InterlockingImpl();
     interlocking.addTrain("Train486", 9, 2);
     assertEquals(1, interlocking.moveTrains(new String[] {"Train486"}));
@@ -202,6 +246,11 @@ public class InterlockingSafety_Test {
         interlocking.moveTrains(new String[] {"Train486", "Train487", "Train488"}));
     assertEquals(2, interlocking.getTrain("Train486"));
     assertEquals(9, interlocking.getTrain("Train487"));
+    assertEquals(10, interlocking.getTrain("Train488"));
+
+    // On the next call 6 really is free. Select one incoming train immediately.
+    assertEquals(1, interlocking.moveTrains(new String[] {"Train487", "Train488"}));
+    assertEquals(6, interlocking.getTrain("Train487"));
     assertEquals(10, interlocking.getTrain("Train488"));
   }
 
@@ -224,6 +273,26 @@ public class InterlockingSafety_Test {
     assertEquals(-1, interlocking.getTrain("Train502"));
     assertEquals(7, interlocking.getTrain("Train503"));
     assertEquals(11, interlocking.getTrain("Train504"));
+
+    // Once 3 is free, choose one contender. Its follower still cannot enter occupied 7.
+    assertEquals(1, interlocking.moveTrains(new String[] {"Train501", "Train503", "Train504"}));
+    assertEquals(3, interlocking.getTrain("Train501"));
+    assertEquals(7, interlocking.getTrain("Train503"));
+    assertEquals(11, interlocking.getTrain("Train504"));
+    assertEquals(1, interlocking.moveTrains(new String[] {"Train501", "Train503", "Train504"}));
+    assertEquals(-1, interlocking.getTrain("Train501"));
+    assertEquals(7, interlocking.getTrain("Train503"));
+    assertEquals(11, interlocking.getTrain("Train504"));
+    assertEquals(1, interlocking.moveTrains(new String[] {"Train503", "Train504"}));
+    assertEquals(3, interlocking.getTrain("Train503"));
+    assertEquals(11, interlocking.getTrain("Train504"));
+    assertEquals(2, interlocking.moveTrains(new String[] {"Train503", "Train504"}));
+    assertEquals(-1, interlocking.getTrain("Train503"));
+    assertEquals(7, interlocking.getTrain("Train504"));
+    assertEquals(1, interlocking.moveTrains(new String[] {"Train504"}));
+    assertEquals(3, interlocking.getTrain("Train504"));
+    assertEquals(1, interlocking.moveTrains(new String[] {"Train504"}));
+    assertEquals(-1, interlocking.getTrain("Train504"));
   }
 
   private static void assertUniqueOccupancy(Interlocking interlocking) {

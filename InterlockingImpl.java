@@ -8,9 +8,11 @@ import java.util.Map;
  * Controls train movement through the eleven-section Islington interlocking.
  *
  * <p>The implementation plans each call to {@link #moveTrains(String[])} from one snapshot and
- * applies the chosen moves atomically. This permits safe forward chains while preventing two
- * trains from occupying one section, swapping across an edge, or crossing through a junction at
- * the same time.
+ * applies the chosen moves atomically. A section occupied at the start of the round remains
+ * unavailable until the next round, preventing same-round forward chains while also preventing
+ * two trains from occupying one section, swapping across an edge, or crossing through a junction
+ * at the same time. Opposing freight trains wait at the ends of the single-track branch rather
+ * than entering section 7 and becoming trapped head-on.
  */
 public final class InterlockingImpl implements Interlocking {
   private static final int FIRST_SECTION = 1;
@@ -96,7 +98,6 @@ public final class InterlockingImpl implements Interlocking {
   }
 
   private boolean isSafeSelection(List<Move> candidates, int mask) {
-    Map<Integer, Move> selectedByOrigin = new HashMap<>();
     Map<Integer, Move> selectedByTarget = new HashMap<>();
     List<Move> selected = new ArrayList<>();
 
@@ -106,22 +107,16 @@ public final class InterlockingImpl implements Interlocking {
       }
       Move move = candidates.get(i);
       selected.add(move);
-      selectedByOrigin.put(move.from, move);
       if (!move.isExit() && selectedByTarget.put(move.to, move) != null) {
         return false;
       }
-    }
-
-    for (Move move : selected) {
-      if (move.isExit()) {
-        continue;
+      if (!move.isExit() && occupants.containsKey(move.to)) {
+        // The next section must have a free-capacity token before this round starts.
+        // Another selected train leaving it cannot enable this transition in the same round.
+        return false;
       }
-      String occupantName = occupants.get(move.to);
-      if (occupantName != null) {
-        Move occupantMove = selectedByOrigin.get(move.to);
-        if (occupantMove == null || !occupantMove.train.name.equals(occupantName)) {
-          return false;
-        }
+      if (wouldCreateFreightBranchDeadlock(move)) {
+        return false;
       }
     }
 
@@ -135,6 +130,23 @@ public final class InterlockingImpl implements Interlocking {
       }
     }
     return true;
+  }
+
+  private boolean wouldCreateFreightBranchDeadlock(Move move) {
+    if ((move.from == 3 && move.to == 7) || (move.from == 11 && move.to == 7)) {
+      // There is no passing place on 3-7-11. If the other end holds an opposing
+      // through train, entering 7 would leave both trains waiting for one another.
+      // Inspect all occupants, including trains not requested to move this round.
+      int opposingEnd = move.from == 3 ? 11 : 3;
+      String opposingTrainName = occupants.get(opposingEnd);
+      TrainState opposingTrain = trains.get(opposingTrainName);
+      return opposingTrain != null
+          && opposingTrain.active
+          && opposingTrain.currentSection() == opposingEnd
+          && !opposingTrain.atDestination()
+          && opposingTrain.nextSection() == 7;
+    }
+    return false;
   }
 
   private static boolean movesSwapEdges(Move first, Move second) {
