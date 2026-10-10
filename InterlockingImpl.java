@@ -11,8 +11,9 @@ import java.util.Map;
  * applies the chosen moves atomically. A section occupied at the start of the round remains
  * unavailable until the next round, preventing same-round forward chains while also preventing
  * two trains from occupying one section, swapping across an edge, or crossing through a junction
- * at the same time. Opposing freight trains wait at the ends of the single-track branch rather
- * than entering section 7 and becoming trapped head-on.
+ * at the same time. When two opposing freight trains are named in the same movement request, the
+ * one that would enter section 7 first is held back so that the pair waits at the ends of the
+ * single-track branch instead of meeting head-on.
  */
 public final class InterlockingImpl implements Interlocking {
   private static final int FIRST_SECTION = 1;
@@ -115,7 +116,7 @@ public final class InterlockingImpl implements Interlocking {
         // Another selected train leaving it cannot enable this transition in the same round.
         return false;
       }
-      if (wouldCreateFreightBranchDeadlock(move)) {
+      if (wouldCreateFreightBranchDeadlock(move, candidates)) {
         return false;
       }
     }
@@ -132,19 +133,36 @@ public final class InterlockingImpl implements Interlocking {
     return true;
   }
 
-  private boolean wouldCreateFreightBranchDeadlock(Move move) {
-    if ((move.from == 3 && move.to == 7) || (move.from == 11 && move.to == 7)) {
-      // There is no passing place on 3-7-11. If the other end holds an opposing
-      // through train, entering 7 would leave both trains waiting for one another.
-      // Inspect all occupants, including trains not requested to move this round.
-      int opposingEnd = move.from == 3 ? 11 : 3;
-      String opposingTrainName = occupants.get(opposingEnd);
-      TrainState opposingTrain = trains.get(opposingTrainName);
-      return opposingTrain != null
-          && opposingTrain.active
-          && opposingTrain.currentSection() == opposingEnd
-          && !opposingTrain.atDestination()
-          && opposingTrain.nextSection() == 7;
+  /**
+   * The freight line 3-7-11 is single track with no passing place. A train must not enter section
+   * 7 while an opposing through train that is part of the same movement request waits at the far
+   * end of the line, because the two trains would then face each other on the line and neither
+   * could ever proceed. A train travelling in the same direction, a train that has already reached
+   * its destination at the far end, and a train that is not part of this request do not block the
+   * entry.
+   */
+  private boolean wouldCreateFreightBranchDeadlock(Move move, List<Move> candidates) {
+    if (move.from == 3 && move.to == 7) {
+      return isRequestedOpposingFreight(11, candidates);
+    }
+    if (move.from == 11 && move.to == 7) {
+      return isRequestedOpposingFreight(3, candidates);
+    }
+    return false;
+  }
+
+  private boolean isRequestedOpposingFreight(int farEnd, List<Move> candidates) {
+    String opposingTrainName = occupants.get(farEnd);
+    if (opposingTrainName == null) {
+      return false;
+    }
+    for (Move candidate : candidates) {
+      TrainState train = candidate.train;
+      if (train.name.equals(opposingTrainName)) {
+        return train.currentSection() == farEnd
+            && !train.atDestination()
+            && train.nextSection() == 7;
+      }
     }
     return false;
   }
