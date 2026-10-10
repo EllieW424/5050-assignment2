@@ -1,5 +1,4 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -44,19 +43,22 @@ public class InterlockingSafety_Test {
   }
 
   @Test
-  public void uncontestedFollowerAdvancesWhenLeadVacatesSection() {
+  public void sectionVacatedInSameCallCannotBeEntered() {
     Interlocking interlocking = new InterlockingImpl();
     interlocking.addTrain("lead", 1, 8);
     interlocking.moveTrains(new String[] {"lead"});
     interlocking.addTrain("following", 1, 8);
 
-    assertEquals(2, interlocking.moveTrains(new String[] {"following", "lead"}));
-    assertEquals(5, interlocking.getTrain("following"));
+    assertEquals(1, interlocking.moveTrains(new String[] {"following", "lead"}));
+    assertEquals(1, interlocking.getTrain("following"));
     assertEquals(8, interlocking.getTrain("lead"));
+
+    assertEquals(1, interlocking.moveTrains(new String[] {"following"}));
+    assertEquals(5, interlocking.getTrain("following"));
   }
 
   @Test
-  public void departingTrainCanBeReplacedInSameCall() {
+  public void exitAndEntryOccurOnSeparateCalls() {
     Interlocking interlocking = new InterlockingImpl();
     interlocking.addTrain("leaving", 1, 8);
     interlocking.moveTrains(new String[] {"leaving"});
@@ -64,9 +66,9 @@ public class InterlockingSafety_Test {
     interlocking.addTrain("following", 1, 8);
     interlocking.moveTrains(new String[] {"following"});
 
-    assertEquals(2, interlocking.moveTrains(new String[] {"following", "leaving"}));
+    assertEquals(1, interlocking.moveTrains(new String[] {"following", "leaving"}));
     assertEquals(-1, interlocking.getTrain("leaving"));
-    assertEquals(8, interlocking.getTrain("following"));
+    assertEquals(5, interlocking.getTrain("following"));
   }
 
   @Test
@@ -87,8 +89,12 @@ public class InterlockingSafety_Test {
     interlocking.addTrain("second", 10, 2);
     interlocking.moveTrains(new String[] {"first", "second"});
 
-    assertEquals(2, interlocking.moveTrains(new String[] {"first", "second"}));
+    assertEquals(1, interlocking.moveTrains(new String[] {"first", "second"}));
     assertEquals(2, interlocking.getTrain("first"));
+    assertEquals(10, interlocking.getTrain("second"));
+
+    assertEquals(2, interlocking.moveTrains(new String[] {"first", "second"}));
+    assertEquals(-1, interlocking.getTrain("first"));
     assertEquals(6, interlocking.getTrain("second"));
   }
 
@@ -139,34 +145,13 @@ public class InterlockingSafety_Test {
   }
 
   @Test
-  public void contestedOccupiedSectionCannotBeInheritedThroughChaining() {
-    Interlocking interlocking = new InterlockingImpl();
-    interlocking.addTrain("lead", 9, 2);
-    interlocking.moveTrains(new String[] {"lead"});
-    interlocking.addTrain("first", 9, 2);
-    interlocking.addTrain("second", 10, 2);
-
-    // Both followers request section 6 while the lead still occupies it; the
-    // lead reaches its destination but neither follower may inherit the
-    // contested section.
-    assertEquals(1, interlocking.moveTrains(new String[] {"lead", "first", "second"}));
-    assertEquals(2, interlocking.getTrain("lead"));
-    assertEquals(9, interlocking.getTrain("first"));
-    assertEquals(10, interlocking.getTrain("second"));
-
-    assertEquals(1, interlocking.moveTrains(new String[] {"first", "second"}));
-    assertEquals(6, interlocking.getTrain("first"));
-    assertEquals(10, interlocking.getTrain("second"));
-  }
-
-  @Test
-  public void freightTrainEntersSection7WhenUnrequestedOpponentWaitsAtFarEnd() {
+  public void freightTrainDoesNotEnterSection7WhileOpponentWaitsAtFarEnd() {
     Interlocking interlocking = new InterlockingImpl();
     interlocking.addTrain("north", 11, 3);
     interlocking.addTrain("south", 3, 11);
 
-    assertEquals(1, interlocking.moveTrains(new String[] {"south"}));
-    assertEquals(7, interlocking.getTrain("south"));
+    assertEquals(0, interlocking.moveTrains(new String[] {"south"}));
+    assertEquals(3, interlocking.getTrain("south"));
     assertEquals(11, interlocking.getTrain("north"));
   }
 
@@ -189,6 +174,81 @@ public class InterlockingSafety_Test {
 
     assertEquals(1, interlocking.moveTrains(new String[] {"south"}));
     assertEquals(7, interlocking.getTrain("south"));
+  }
+
+  /**
+   * Two opposing freight trains were both requested while section 7 was free for either of them.
+   * Each entry would trap the entering train against the other one, so the interlocking keeps both
+   * trains at the ends of the single-track line instead of approving either entry.
+   */
+  @Test
+  public void opposingFreightTrainsOnSingleTrackWaitAtTheLineEnds() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("branchNorth", 4, 3);
+    interlocking.addTrain("passNorth", 1, 9);
+    interlocking.addTrain("passEast", 10, 2);
+    interlocking.moveTrains(new String[] {"passEast"});
+    interlocking.addTrain("freightSouth", 3, 11);
+    interlocking.addTrain("freightNorth", 11, 3);
+
+    assertEquals(4, interlocking.getTrain("branchNorth"));
+    assertEquals(1, interlocking.getTrain("passNorth"));
+    assertEquals(6, interlocking.getTrain("passEast"));
+    assertEquals(3, interlocking.getTrain("freightSouth"));
+    assertEquals(11, interlocking.getTrain("freightNorth"));
+
+    assertEquals(2, interlocking.moveTrains(new String[] {"branchNorth", "passNorth", "passEast",
+        "freightSouth", "freightNorth"}));
+    assertEquals(4, interlocking.getTrain("branchNorth"));
+    assertEquals(5, interlocking.getTrain("passNorth"));
+    assertEquals(2, interlocking.getTrain("passEast"));
+    assertEquals(3, interlocking.getTrain("freightSouth"));
+    assertEquals(11, interlocking.getTrain("freightNorth"));
+  }
+
+  /**
+   * The older train leaves section 6 in the same round while two newer trains are queued behind it.
+   * Section 6 must stay unavailable to both of them for this round, so exactly one train moves.
+   */
+  @Test
+  public void sectionVacatedInTheSameRoundStaysUnavailableToQueuedTrains() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("older", 9, 2);
+    interlocking.moveTrains(new String[] {"older"});
+    interlocking.addTrain("newer9", 9, 2);
+    interlocking.addTrain("newer10", 10, 2);
+
+    assertEquals(1, interlocking.moveTrains(new String[] {"older", "newer9", "newer10"}));
+    assertEquals(2, interlocking.getTrain("older"));
+    assertEquals(9, interlocking.getTrain("newer9"));
+    assertEquals(10, interlocking.getTrain("newer10"));
+  }
+
+  /**
+   * A column of freight trains would each step into the section that the train ahead of it frees in
+   * the same round. Only the furthest train may leave, so no train ever enters a section that was
+   * occupied when the round started.
+   */
+  @Test
+  public void freightColumnCannotChainIntoVacatedSectionsInOneRound() {
+    Interlocking interlocking = new InterlockingImpl();
+    interlocking.addTrain("lead", 4, 3);
+    interlocking.addTrain("arrived", 11, 3);
+    interlocking.moveTrains(new String[] {"arrived"});
+    interlocking.moveTrains(new String[] {"arrived"});
+    interlocking.addTrain("middle", 11, 3);
+    interlocking.moveTrains(new String[] {"middle"});
+    interlocking.addTrain("rear", 11, 3);
+
+    assertEquals(3, interlocking.getTrain("arrived"));
+    assertEquals(7, interlocking.getTrain("middle"));
+    assertEquals(11, interlocking.getTrain("rear"));
+
+    assertEquals(1, interlocking.moveTrains(new String[] {"lead", "arrived", "middle", "rear"}));
+    assertEquals(4, interlocking.getTrain("lead"));
+    assertEquals(-1, interlocking.getTrain("arrived"));
+    assertEquals(7, interlocking.getTrain("middle"));
+    assertEquals(11, interlocking.getTrain("rear"));
   }
 
   @Test

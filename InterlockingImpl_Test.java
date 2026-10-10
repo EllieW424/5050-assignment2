@@ -175,15 +175,20 @@ public class InterlockingImpl_Test {
   }
 
   @Test
-  public void completedTrainName_canBeReusedForANewTrain() {
+  public void completedTrainName_staysReservedAfterTheTrainExits() {
     Interlocking interlocking = new InterlockingImpl();
-    interlocking.addTrain("reusable", 3, 4);
-    interlocking.moveTrains(new String[] {"reusable"});
-    interlocking.moveTrains(new String[] {"reusable"});
+    interlocking.addTrain("reserved", 3, 4);
+    interlocking.moveTrains(new String[] {"reserved"});
+    interlocking.moveTrains(new String[] {"reserved"});
 
-    interlocking.addTrain("reusable", 1, 8);
-    assertEquals(1, interlocking.getTrain("reusable"));
-    assertEquals("reusable", interlocking.getSection(1));
+    assertEquals(-1, interlocking.getTrain("reserved"));
+    try {
+      interlocking.addTrain("reserved", 1, 8);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      // A completed train keeps its name reserved so that getTrain can still report -1 for it.
+      assertNull(interlocking.getSection(1));
+    }
   }
 
   private static void verifyRoute(int entry, int destination, int[] route) {
